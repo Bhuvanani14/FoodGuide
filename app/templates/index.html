@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Meal Planner - Smart Cooking Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🍽️ Meal Planner AI</h1>
+                <p class="tagline">Your Personal AI Cooking Assistant</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Panel -->
+            <section class="input-panel glass-panel">
+                <h2>Tell Us About Your Day</h2>
+                
+                <form id="preferenceForm" class="form-grid">
+                    <div class="form-group">
+                        <label for="budget">💰 Budget (USD)</label>
+                        <input 
+                            type="number" 
+                            id="budget" 
+                            name="budget" 
+                            placeholder="e.g., 50"
+                            min="20"
+                            step="5"
+                            required
+                        >
+                        <span class="help-text">Minimum $20</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="servings">👥 Number of Servings</label>
+                        <input 
+                            type="number" 
+                            id="servings" 
+                            name="servings" 
+                            placeholder="e.g., 2"
+                            min="1"
+                            max="12"
+                            value="2"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dietary">🌱 Dietary Preference</label>
+                        <select id="dietary" name="dietary_preference">
+                            <option value="none">No Restrictions</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten Free</option>
+                            <option value="low-carb">Low Carb</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">⏱️ Cooking Time</label>
+                        <select id="time" name="cooking_time">
+                            <option value="quick">Quick (Under 30 min)</option>
+                            <option value="medium">Medium (30-60 min)</option>
+                            <option value="any">Any Time</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large">
+                        ✨ Generate Meal Plan
+                    </button>
+                </form>
+            </section>
+
+            <!-- Results Panel -->
+            <section id="resultsPanel" class="results-panel" style="display: none;">
+                <!-- Meal Plan Section -->
+                <div class="glass-panel meal-plan-section">
+                    <h2>📅 Your Personalized Meal Plan</h2>
+                    <div class="meal-cards">
+                        <div id="breakfastCard" class="meal-card breakfast">
+                            <h3>🌅 Breakfast</h3>
+                            <p class="meal-name" id="breakfastMeal"></p>
+                            <p class="meal-time" id="breakfastTime"></p>
+                        </div>
+                        <div id="lunchCard" class="meal-card lunch">
+                            <h3>🌞 Lunch</h3>
+                            <p class="meal-name" id="lunchMeal"></p>
+                            <p class="meal-time" id="lunchTime"></p>
+                        </div>
+                        <div id="dinnerCard" class="meal-card dinner">
+                            <h3>🌙 Dinner</h3>
+                            <p class="meal-name" id="dinnerMeal"></p>
+                            <p class="meal-time" id="dinnerTime"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grocery List Section -->
+                <div class="glass-panel grocery-section">
+                    <h2>🛒 Grocery List</h2>
+                    <div class="grocery-list-container">
+                        <table class="grocery-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groceryTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Budget Analysis Section -->
+                <div class="glass-panel budget-section">
+                    <h2>💵 Budget Analysis</h2>
+                    <div class="budget-cards">
+                        <div class="budget-stat">
+                            <span class="stat-label">Total Cost</span>
+                            <span class="stat-value" id="totalCost">$0.00</span>
+                        </div>
+                        <div class="budget-stat">
+                            <span class="stat-label">Your Budget</span>
+                            <span class="stat-value" id="userBudget">$0.00</span>
+                        </div>
+                        <div class="budget-stat">
+                            <span class="stat-label">Cost/Serving</span>
+                            <span class="stat-value" id="costPerServing">$0.00</span>
+                        </div>
+                        <div class="budget-stat" id="remainingBudget">
+                            <span class="stat-label">Remaining</span>
+                            <span class="stat-value">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div id="budgetStatus" class="budget-status">
+                        <span id="budgetMessage"></span>
+                        <div class="progress-bar">
+                            <div id="budgetProgress" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Substitutions Section -->
+                <div class="glass-panel substitutions-section">
+                    <h2>🔄 Alternative Ingredients</h2>
+                    <div id="substitutionsList" class="substitutions-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="action-buttons">
+                    <button id="regenerateBtn" class="btn btn-secondary">
+                        🔄 Generate Alternative
+                    </button>
+                    <button id="optimizeBtn" class="btn btn-secondary">
+                        ⚡ Optimize for Budget
+                    </button>
+                    <button id="restartBtn" class="btn btn-primary">
+                        ➕ New Plan
+                    </button>
+                </div>
+            </section>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating your perfect meal plan...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
