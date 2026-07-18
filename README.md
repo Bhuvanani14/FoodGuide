@@ -1,6 +1,10 @@
-# AI Meal Planner - Smart Cooking Assistant
+# 🍽️ FoodGuide AI - Meal Planner
 
 A Flask-based AI-powered meal planning application with an interactive glassmorphism UI. Generate personalized meal plans, grocery lists, food substitutions, and budget analysis in real-time.
+
+**GitHub**: https://github.com/Bhuvanani14/FoodGuide  
+**Cloud Project**: tidy-node-494313-j1  
+**Deployment Status**: Ready to Deploy to Cloud Run
 
 ## 🎯 Features
 
@@ -45,70 +49,66 @@ A Flask-based AI-powered meal planning application with an interactive glassmorp
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Python 3.8+
-- pip (Python package manager)
+### Local Development
 
-### Installation
+**Prerequisites**: Python 3.11+, pip, Git
 
-1. **Clone or navigate to the project directory**
-   ```bash
-   cd path/to/meal-planner
-   ```
+**Installation**:
+```bash
+# Clone repository
+git clone https://github.com/Bhuvanani14/FoodGuide.git
+cd FoodGuide
 
-2. **Create and activate a virtual environment (recommended)**
-   ```bash
-   # Windows
-   python -m venv venv
-   venv\Scripts\activate
-   
-   # macOS/Linux
-   python -m venv venv
-   source venv/bin/activate
-   ```
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Install dependencies
+pip install -r requirements.txt
 
-4. **Set environment variables (optional)**
-   ```bash
-   # Create a .env file in the root directory
-   FLASK_ENV=development
-   OPENAI_API_KEY=your_api_key_here  # Optional for future AI features
-   ```
+# Run locally
+python run.py
+```
 
-5. **Run the application**
-   ```bash
-   python run.py
-   ```
+**Access**: http://localhost:5000
 
-6. **Open in browser**
-   Navigate to `http://localhost:5000`
+### ☁️ Cloud Deployment (Google Cloud Run)
+
+**Prerequisites**: 
+- Billing enabled on project `tidy-node-494313-j1`
+- gcloud CLI installed and authenticated
+
+**Deploy**:
+```bash
+# Automatic deployment
+chmod +x deploy-cloud-run.sh
+./deploy-cloud-run.sh
+
+# Get service URL
+gcloud run services describe foodguide-ai-meal-planner \
+  --platform managed --region us-central1 \
+  --format 'value(status.url)'
+```
+
+📖 **Detailed Cloud Deployment Guide**: See [CLOUD_DEPLOYMENT.md](CLOUD_DEPLOYMENT.md)
 
 ## 📖 How to Use
 
 1. **Enter Your Preferences**
-   - Set your daily budget (minimum $20)
-   - Enter number of servings (1-12)
-   - Choose dietary preference (vegetarian, vegan, etc.)
-   - Select cooking time preference
+   - Budget ($20 minimum)
+   - Servings (1-12)
+   - Dietary preference
+   - Cooking time
 
 2. **Generate Meal Plan**
-   - Click "Generate Meal Plan" button
-   - View personalized breakfast, lunch, and dinner suggestions
-   - See complete grocery list with prices
+   - View breakfast, lunch & dinner suggestions
+   - See ingredients with quantities & prices
+   - Analyze total cost
 
-3. **Review Budget Analysis**
-   - Check total cost vs. your budget
-   - See cost per serving
-   - View remaining budget
-
-4. **Explore Alternatives**
-   - Use "Generate Alternative" to get different meal combinations
-   - Click "Optimize for Budget" to reduce costs
-   - View food substitutions for each ingredient
+3. **Optimize & Explore**
+   - Generate alternatives for variety
+   - Optimize to fit budget
+   - Check food substitutions
 
 ## 🎨 Glassmorphism Design Features
 
@@ -179,44 +179,50 @@ Edit `config.py` to adjust:
 ### Port 5000 already in use
 ```bash
 # Use a different port
-python -c "from app import create_app; app = create_app(); app.run(port=5001)"
-```
+pyth� Supported Browsers
 
-### Module not found errors
-Ensure virtual environment is activated and all packages are installed:
-```bash
-pip install -r requirements.txt
-```
-
-### CSS not loading
-Clear browser cache or do a hard refresh (Ctrl+Shift+R on Windows/Linux, Cmd+Shift+R on Mac)
-
-## 🚀 Future Enhancements
-
-- [ ] Integration with OpenAI API for AI-powered meal suggestions
-- [ ] User authentication and saved meal plans
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- Mobile browsers (iOS Safari, Chrome
 - [ ] Nutritional information display
 - [ ] Recipe details and cooking instructions
 - [ ] Grocery store price comparison
 - [ ] Dietary restriction compliance checking
 - [ ] Export to shopping lists/PDFs
-- [ ] Mobile app version
+- [ ] Roadmap
+
+- **� API Endpoints
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/generate-meal-plan` | POST | Generate meal plan with budget |
+| `/api/optimize-budget` | POST | Optimize costs |
+| `/api/budget-recommendation` | POST | Get budget tips |
+| `/api/alternative-meals` | POST | Generate alternatives |
+| `/health` | GET | Health check |
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+MIT License - see LICENSE file for details
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Fork the repo
+2. Create feature branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'Add feature'`)
+4. Push branch (`git push origin feature/amazing`)
+5. Open Pull Request
 
-## 💡 Tips
+## 📧 Support
 
-- Start with a small budget to test the optimization feature
-- Try different dietary preferences to see varied meal plans
-- Use the glassmorphic cards to explore multiple alternatives
-- Check the browser console for debugging information
+- Issues: [GitHub Issues](https://github.com/Bhuvanani14/FoodGuide/issues)
+- Questions: Create a discussion or issue
+- Feedback: Always welcome!
 
 ---
 
-**Made with ❤️ for home chefs and meal planning enthusiasts**
+**Made with ❤️ by [Bhuvanani14](https://github.com/Bhuvanani14)**  
+**Repository**: https://github.com/Bhuvanani14/FoodGuide  
+**Cloud Project**: tidy-node-494313-j1
